@@ -1,8 +1,9 @@
+import { ThemeProvider } from "@/components/theme-provider";
+import { getServerAuthSession } from "@/server/auth";
 import "@/styles/globals.css";
-
-import { Inter } from "next/font/google";
-
 import { TRPCReactProvider } from "@/trpc/react";
+import { Inter } from "next/font/google";
+import Navbar from "../components/ui/navbar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,16 +16,29 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+
+  const session = await getServerAuthSession()
+
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <ThemeProvider attribute="class" enableSystem defaultTheme="system" disableTransitionOnChange>
+            <main>
+              <Navbar session={session} />
+              {children}
+            </main>
+          </ThemeProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
 }
+
