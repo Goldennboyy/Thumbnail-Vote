@@ -38,9 +38,9 @@ const Navbar = ({ session }: navbarProps) => {
 
 
     return (
-        <nav className="flex bg-white justify-center p-4 mx-auto dark:bg-gray-900 border-b border-b-gray-100/10">
+        <nav className="flex justify-center p-4 mx-auto bg-white border-b dark:bg-gray-900 border-b-gray-100/10">
 
-            <div className="flex justify-between max-w-7xl w-full mt-2">
+            <div className="flex justify-between w-full mt-2 max-w-7xl">
 
                 <div className="flex gap-4">
                     <Image
