@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import Footer from "@/components/ui/footer";
 import { getServerAuthSession } from "@/server/auth";
 import "@/styles/globals.css";
 import { TRPCReactProvider } from "@/trpc/react";
@@ -34,6 +35,7 @@ export default async function RootLayout({
             <main>
               <Navbar session={session} />
               {children}
+              <Footer />
             </main>
           </ThemeProvider>
         </TRPCReactProvider>

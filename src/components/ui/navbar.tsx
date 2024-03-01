@@ -43,6 +43,7 @@ const Navbar = ({ session }: navbarProps) => {
             <div className="flex justify-between w-full mt-2 max-w-7xl">
 
                 <div className="flex gap-4">
+
                     <Image
                         src={Thumbnail}
                         height={50}
@@ -50,7 +51,9 @@ const Navbar = ({ session }: navbarProps) => {
                         className="object-contain"
                         alt="Thumbnail"
                     />
+
                     <p className="text-lg ">ThumbRank</p>
+
                 </div>
 
                 {session && (
