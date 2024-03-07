@@ -6,7 +6,7 @@ import thumbnail from "../../public/assets/image.webp";
 export default async function Home() {
 	return (
 		<div className="bg-slate-300 dark:bg-slate-800">
-			<section className="flex justify-center w-full min-h-screen mx-auto ">
+			<section className="flex justify-center w-full min-h-screen mx-auto">
 				<div className="flex flex-col items-center pt-24 space-y-8 p-4">
 					<Image
 						alt="Thumbnail"
@@ -28,7 +28,7 @@ export default async function Home() {
 
 					<Link href={"/create"}>
 						<Button variant="default" type="button">
-							Create Thumbnail
+							Create a Thumbnail
 						</Button>
 					</Link>
 				</div>

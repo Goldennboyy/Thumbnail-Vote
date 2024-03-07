@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export default function MobileMenu() {
 	return (
-		<div className="md:hidden ">
+		<div className="md:hidden flex">
 			<Popover>
 				<PopoverTrigger asChild>
 					<Button
@@ -27,7 +27,6 @@ export default function MobileMenu() {
 					align="end"
 					className="w-[280px] h-auto dark:bg-gray-900"
 				>
-					<div />
 					<div className="flex flex-col gap-0.5 p-2">
 						{links.map((link, index) => (
 							<Link
