@@ -8,7 +8,10 @@ import {
 	FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -20,8 +23,7 @@ const AddThumbnailForm = () => {
 	const form = useForm<ThumbnailSchema>({
 		resolver: zodResolver(formThumbnailSchema),
 		defaultValues: {
-			title: undefined,
-			image: undefined,
+			title: "",
 		},
 	});
 
@@ -29,16 +31,37 @@ const AddThumbnailForm = () => {
 
 	const [selectedImage, setSelectedImage] = useState<File | undefined>();
 
-	console.log(selectedImage);
+	const { toast } = useToast();
 
-	// toDO remove the form component and just use the basic one instead of this then create trpc mutation
+	const createThumbnail = api.thumbnail.create.useMutation({
+		onSuccess: () => {
+			toast({
+				title: "Thumbnail created",
+				description: "Your thumbnail has been created",
+			});
+		},
+		onError: () => {
+			toast({
+				variant: "destructive",
+				title: "Thumbnail failed",
+				description: "Your thumbnail has not been created",
+			});
+			form.reset();
+			setSelectedImage(undefined);
+		},
+	});
 
 	const onSubmit: SubmitHandler<ThumbnailSchema> = (data: ThumbnailSchema) => {
 		const res = formThumbnailSchema.safeParse(data);
-		console.log(res);
+		const { title, image } = data;
 		if (res.success) {
-			console.log({ res });
+			createThumbnail.mutate({
+				title: title,
+				image: image[0]?.name ?? "",
+			});
 		}
+		form.reset();
+		setSelectedImage(undefined);
 	};
 
 	const fileRef = register("image", { required: true });
@@ -98,13 +121,27 @@ const AddThumbnailForm = () => {
 						{formState.errors.image.message}
 					</p>
 				)}
+
+				{selectedImage && (
+					<div className="flex">
+						<Image
+							alt="selectedImage"
+							width={200}
+							height={200}
+							// create a preview of the selected image
+							src={URL.createObjectURL(selectedImage)}
+							className="object-cover rounded-sm"
+						/>
+					</div>
+				)}
+
 				<Button
 					type="submit"
 					variant={"default"}
 					disabled={formState.isLoading}
 					onClick={handleSubmit(onSubmit)}
 				>
-					Submit Thumbnail
+					{formState.isLoading ? "Submitting..." : "Submit"}
 				</Button>
 			</form>
 		</Form>

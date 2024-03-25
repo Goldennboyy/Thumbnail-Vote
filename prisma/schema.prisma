@@ -72,8 +72,8 @@ model User {
 
 model Thumbnail {
     id        String    @id @default(cuid())
-    title     String
-    image     String
+    title     String    @unique
+    image     String    @unique
     userId    String
     createdAt DateTime  @default(now())
     // relations with users one to many 

@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/ui/footer";
+import { Toaster } from "@/components/ui/toaster";
 import { getServerAuthSession } from "@/server/auth";
 import "@/styles/globals.css";
 import { TRPCReactProvider } from "@/trpc/react";
@@ -37,6 +38,7 @@ export default async function RootLayout({
 						<main className="min-h-screen bg-slate-300 dark:bg-slate-800">
 							{children}
 						</main>
+						<Toaster />
 						<Footer />
 					</ThemeProvider>
 				</TRPCReactProvider>
