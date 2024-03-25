@@ -1,7 +1,7 @@
 "use client";
 import { links } from "@/app/constants/constants";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { type Session } from "next-auth";
+import type { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
