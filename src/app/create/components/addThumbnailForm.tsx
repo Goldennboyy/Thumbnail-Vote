@@ -29,7 +29,9 @@ const AddThumbnailForm = () => {
 
 	const { register, handleSubmit, formState } = form;
 
-	const [selectedImage, setSelectedImage] = useState<File | undefined>();
+	const [selectedImage, setSelectedImage] = useState<File | undefined>(
+		undefined,
+	);
 
 	const { toast } = useToast();
 
@@ -43,8 +45,8 @@ const AddThumbnailForm = () => {
 		onError: () => {
 			toast({
 				variant: "destructive",
-				title: "Thumbnail failed",
-				description: "Your thumbnail has not been created",
+				title: "Thumbnail has not been created",
+				description: `Error : ${createThumbnail.error?.message}`,
 			});
 			form.reset();
 			setSelectedImage(undefined);
@@ -53,11 +55,12 @@ const AddThumbnailForm = () => {
 
 	const onSubmit: SubmitHandler<ThumbnailSchema> = (data: ThumbnailSchema) => {
 		const res = formThumbnailSchema.safeParse(data);
-		const { title, image } = data;
+		console.log({ data });
+		const { title } = data;
 		if (res.success) {
 			createThumbnail.mutate({
 				title: title,
-				image: image[0]?.name ?? "",
+				image: selectedImage,
 			});
 		}
 		form.reset();
@@ -106,7 +109,6 @@ const AddThumbnailForm = () => {
 									{...fileRef}
 									onChange={(e) => {
 										if (e.target.files) {
-											console.log(e.target.files);
 											field.onChange(e.target.files);
 											setSelectedImage(e.target.files[0] ?? undefined);
 										}
@@ -123,16 +125,14 @@ const AddThumbnailForm = () => {
 				)}
 
 				{selectedImage && (
-					<div className="flex">
-						<Image
-							alt="selectedImage"
-							width={200}
-							height={200}
-							// create a preview of the selected image
-							src={URL.createObjectURL(selectedImage)}
-							className="object-cover rounded-sm"
-						/>
-					</div>
+					<Image
+						alt="selectedImage"
+						width={200}
+						height={200}
+						// create a preview of the selected image
+						src={URL.createObjectURL(selectedImage)}
+						className="object-cover rounded-sm"
+					/>
 				)}
 
 				<Button
